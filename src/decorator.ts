@@ -90,3 +90,17 @@ export function format<This, Return>(pref: string = 'Mr./Mrs.') {
         }
     };
 }
+
+export function positiveInteger(originalSet: Function, {kind}: ClassSetterDecoratorContext) {
+  if(kind == 'setter') {
+    const newSet = function(this: any, value: number) {
+      if(value < 1 && !Number.isInteger(value)) {
+        throw new Error('Invalid value')
+      }
+
+      originalSet.call(this, value)
+    }
+
+    return newSet;
+  }
+}

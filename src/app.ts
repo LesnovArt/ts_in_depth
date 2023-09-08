@@ -1,7 +1,7 @@
 import * as i from './interfaces';
 import * as t from './types';
 import * as e from './enums';
-import { setDefaultConfig, printRefBook, purge, getObjectProperty, getAllBooks, createCustomer } from './functions';
+import { setDefaultConfig, printRefBook, purge, getObjectProperty, getAllBooks, createCustomer, getBooksByCategory, logCategorySearch, getBooksByCategoryPromise, logSearchResult } from './functions';
 
 import { UL, RefBook, Shelf } from './classes';
 import { Library } from './classes/library';
@@ -129,15 +129,15 @@ import { Library } from './classes/library';
 
 // task 07.01
 
-const inventory = [
-    { id: 10, title: 'The C Programming Language', author: 'K & R', available: true, category: e.Category.Software },
+// const inventory = [
+//     { id: 10, title: 'The C Programming Language', author: 'K & R', available: true, category: e.Category.Software },
 
-    { id: 11, title: 'Code Complete', author: 'Steve McConnell', available: true, category: e.Category.Software },
+//     { id: 11, title: 'Code Complete', author: 'Steve McConnell', available: true, category: e.Category.Software },
 
-    { id: 12, title: '8-Bit Graphics with Cobol', author: 'A. B.', available: true, category: e.Category.Software },
+//     { id: 12, title: '8-Bit Graphics with Cobol', author: 'A. B.', available: true, category: e.Category.Software },
 
-    { id: 13, title: 'Cool autoexec.bat Scripts!', author: 'C. D.', available: true, category: e.Category.Software },
-];
+//     { id: 13, title: 'Cool autoexec.bat Scripts!', author: 'C. D.', available: true, category: e.Category.Software },
+// ];
 
 // const r = purge(inventory);
 // const n = purge([1, 2, 4, 56, 812, 21, 0]);
@@ -227,8 +227,50 @@ const inventory = [
 
 // task 08.06
 
-const uniLib = new UL.UniversityLibrarian();
-uniLib.name = 'Anna';
-console.log(uniLib);
-console.log(uniLib.name);
-uniLib.assistCustomer('Boris', 'TypeScript');
+// const uniLib = new UL.UniversityLibrarian();
+// uniLib.name = 'Anna';
+// console.log(uniLib);
+// console.log(uniLib.name);
+// uniLib.assistCustomer('Boris', 'TypeScript');
+
+// task 08.07
+
+// const enc = new RefBook(1, 'Learn TS', 2023, 3)
+// enc.copies = 0,4
+// enc.copies = 2,4
+
+// task 09.01
+
+// getBooksByCategory(e.Category.Javascript, logCategorySearch)
+
+// task 09.02
+
+console.log('Begin');
+getBooksByCategoryPromise(e.Category.Javascript)
+  .then((titles) => {
+    console.log(titles);
+
+    return Promise.resolve(titles.length)
+  })
+  .then((length) => console.log(length)
+  )
+  .catch((error) => console.log(error)
+  )
+getBooksByCategoryPromise(e.Category.Software)
+  .then((titles) => console.log(titles)
+  )
+  .catch((error) => console.log(error)
+  )
+console.log('End');
+
+// task 09.03
+
+console.log('begin');
+logSearchResult(e.Category.Javascript).catch((error) => {console.log(error);
+})
+console.log('end');
+
+console.log('begin');
+logSearchResult(e.Category.Software).catch((error) => {console.log(error);
+})
+console.log('end');

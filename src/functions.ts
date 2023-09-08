@@ -1,5 +1,5 @@
 /* eslint-disable no-redeclare */
-import { Book, Author, TOptions } from './interfaces';
+import { Book, Author, TOptions, Callback, LibMgrCallback } from './interfaces';
 import { Category } from './enums';
 import { PersonBook, BookProperties } from './types';
 import RefBook from './classes/encyclopedia';
@@ -213,3 +213,49 @@ export function update<T extends boolean>(flag: T): UpdateResult<T> {
 
 const r1 = update(true);
 const r2 = update(false);
+
+export function getBooksByCategory(category: Category, callback: Callback<string[]>) {
+// export function getBooksByCategory(category: Category, callback: LibMgrCallback) {
+  setTimeout(() => {
+    try {
+      const titles = getBookTitlesByCategory(category)
+
+      if(titles.length > 0) {
+        callback(null, titles)
+      } else {
+        throw new Error('No books found')
+      }
+    } catch (error: any) {
+      callback(error, null)
+    }
+  }, 2000)
+}
+
+export function logCategorySearch(error: Error | null, data: string[] | null): void {
+  if(error) {
+    console.log(error.message);
+  } else {
+    console.log(data);
+    
+  }
+}
+
+export function getBooksByCategoryPromise(category: Category): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+
+        const titles = getBookTitlesByCategory(category)
+  
+        if(titles.length > 0) {
+          resolve(titles)
+        } else {
+          reject('No books found')
+        }
+    }, 2000)
+  })
+}
+
+export async function logSearchResult(category: Category) {
+  const r: Awaited<ReturnType<typeof getBooksByCategoryPromise>> = await getBooksByCategoryPromise(category)
+  console.log(r.length);
+}
